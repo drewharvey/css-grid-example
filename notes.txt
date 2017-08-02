@@ -1,0 +1,1 @@
+ - can use margin: auto to vert/horiz align items inside gridarea
