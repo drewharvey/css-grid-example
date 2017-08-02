@@ -1,0 +1,6 @@
+{
+  "name": "css-grid-test",
+  "short_name": "css-grid-test",
+  "start_url": "/",
+  "display": "standalone"
+}

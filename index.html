@@ -1,63 +1,59 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>CSS Grid</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
+    <!-- web component imports -->
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
 </head>
 
 <body class="grid-container">
-    
+
     <header>
-        <h1>Ultimate Email Management Pro Deluxe 2000 M.E. Edition</h1>
+        <h1>Email Pro</h1>
     </header>
 
     <nav>
-        <a class="nav-item" href="#">Inbox</a>
-        <a class="nav-item" href="#">Sent</a>
-        <a class="nav-item" href="#">Junk</a>
-        <a class="nav-item" href="#">Trash</a>
+        <a href="#" class="menu-icon"><img src="images/menu.svg"> Inbox</a>
+        <div class="nav-items">
+            <a class="nav-item selected" href="#">Inbox</a>
+            <a class="nav-item" href="#">Sent</a>
+            <a class="nav-item" href="#">Junk</a>
+            <a class="nav-item" href="#">Trash</a>
+        </div>
     </nav>
 
     <main>
-        <table>
-            <tr>
-                <td>Bill Walters</td>
-                <td>Hurry someone broke my toes and I need a popsicle!</td>
-                <td>5hr</td>
-                <td>[icon]</td>
-            </tr>
-            <tr>
-                <td>Bill Walters</td>
-                <td>Hurry someone broke my toes and I need a popsicle!</td>
-                <td>5hr</td>
-                <td>[icon]</td>
-            </tr>
-            <tr>
-                <td>Bill Walters</td>
-                <td>Hurry someone broke my toes and I need a popsicle!</td>
-                <td>5hr</td>
-                <td>[icon]</td>
-            </tr>
-            <tr>
-                <td>Bill Walters</td>
-                <td>Hurry someone broke my toes and I need a popsicle!</td>
-                <td>5hr</td>
-                <td>[icon]</td>
-            </tr>
-            <tr>
-                <td>Bill Walters</td>
-                <td>Hurry someone broke my toes and I need a popsicle!</td>
-                <td>5hr</td>
-                <td>[icon]</td>
-            </tr>
-        </table>
+        <vaadin-grid class="email-list">
+            <vaadin-grid-column width="150px" flex-grow="0">
+                <template class="header">From</template>
+                <template>[[item.from]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Subject</template>
+                <template>[[item.title]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">Time</template>
+                <template>[[item.when]]</template>
+            </vaadin-grid-column>
+        </vaadin-grid>
     </main>
 
     <div class="preview-pane">
-        PREVIEW PANE
+        <h2>I think I discovered the purpose of our universe</h2>
+        <div class="">
+            From Bill Nye<br>
+            1 Week ago
+        </div>
+        <div>
+            <p>Hey whats up man, this is your friend Bill.  I just realized that the universe is actually meant to transform into a huge dog/human hybrid.  If we keep dumping oil and chemicals into our rivers it should provide enought kenetic energy to encapsulate an origin of mass that is equivilent to the quantization of artificial plasm!</p>
+        </div>
     </div>
 
     <footer>
@@ -65,14 +61,40 @@
     </footer>
 
     <script>
+        // The Web Components polyfill introduces a custom event we can
+        // use to determine when the custom elements are ready to be used.
+        document.addEventListener("WebComponentsReady", function () {
 
-        var gridAreas = ['header', 'sidebar', 'content', 'sidebar2', 'footer'];
-        var gridSize = 9;
-        
-        function applyRandomLayout() {
-            let el = document.getElementsByClassName('grid-container')[0];
+            // Reference to the grid element.
+            let grid = document.querySelector("vaadin-grid");
+
+            // fetch our test data and populate our grid with the latest emails
+            fetch('emails.json', {
+                method: 'get'
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                grid.items = data.inbox;
+            }).catch(function (err) {
+                console.error(err);
+            });
+        });
+
+        // give mobile menu button functionality
+        let menuButton = document.querySelector(".menu-icon");
+        let menuItems = document.querySelector("nav .nav-items");
+        menuButton.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            menuItems.classList.toggle("show");
+        };
+
+        window.onclick = function(e) {
+            console.log(menuItems.contains(e.target));
+            if (!menuItems.contains(e.target)) {
+                menuItems.classList.remove("show");
+            }
         }
-
     </script>
 </body>
 
