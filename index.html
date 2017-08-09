@@ -4,18 +4,21 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>CSS Grid</title>
+    <title>CSS Grid Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <!-- web component imports -->
     <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
     <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
+    <link rel="import" href="bower_components/vaadin-grid/vaadin-grid-sorter.html">
 </head>
 
 <body class="grid-container">
 
     <header>
-        <h1>Email Pro</h1>
+        <h1>Email Vista 2000 Millennium Edition</h1>
+        <div class="changeThemeBtn" onclick="setRandomTheme()"></div>
+        <div class="trump-quote">Make our theme great again!</div>
     </header>
 
     <nav>
@@ -29,17 +32,24 @@
     </nav>
 
     <main>
-        <vaadin-grid class="email-list">
+        <x-selection></x-selection>
+        <vaadin-grid class="email-list" active-item="0" on-active-item-changed="onActiveItemChange">
             <vaadin-grid-column width="150px" flex-grow="0">
-                <template class="header">From</template>
+                <template class="header">
+                    <vaadin-grid-sorter path="from">From</vaadin-grid-sorter>
+                </template>
                 <template>[[item.from]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column>
-                <template class="header">Subject</template>
+                <template class="header">
+                    <vaadin-grid-sorter path="title">Subject</vaadin-grid-sorter>
+                </template>
                 <template>[[item.title]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column width="50px" flex-grow="0">
-                <template class="header">Time</template>
+                <template class="header">
+                    <vaadin-grid-sorter path="when"></vaadin-grid-sorter>
+                </template>
                 <template>[[item.when]]</template>
             </vaadin-grid-column>
         </vaadin-grid>
@@ -57,10 +67,64 @@
     </div>
 
     <footer>
-        Designed by a person in a room with no hands
+        Designed by a somebody
     </footer>
 
     <script>
+        // give mobile menu button functionality
+        let menuButton = document.querySelector(".menu-icon");
+        let menuItems = document.querySelector("nav .nav-items");
+        menuButton.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            menuItems.classList.toggle("show");
+        };
+
+        // close mobile menu if clicked outside of menu
+        window.onclick = function(e) {
+            if (!menuItems.contains(e.target)) {
+                menuItems.classList.remove("show");
+            }
+        }
+
+        var numClicks = 0;
+        function setRandomTheme() {
+            numClicks++;
+            if (numClicks % 10 === 0) {
+                changeQuote(numClicks);
+            }
+            let cssColorVars = [
+                "--color-primary",
+                "--color-bg",
+                "--color-bg-alt",
+                "--color-bg-alt-highlight"
+            ];
+            for (let i in cssColorVars) {
+                document.documentElement.style.setProperty(cssColorVars[i], getRandomColor());
+            }
+        }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function changeQuote(numClicks) {
+            let quotes = [
+                'Hmmm... not sure how this works',
+                'We need more borders',
+                'An "extremely credible source" told me this looks good'
+            ];
+            let i = numClicks / 10;
+            console.log(i);
+            let quote = quotes.length > i ? quotes[i] : "The beauty of me is that I’m very rich and this website is poor";
+            document.querySelector('.trump-quote').innerHTML = quotes[i];
+        }
+
         // The Web Components polyfill introduces a custom event we can
         // use to determine when the custom elements are ready to be used.
         document.addEventListener("WebComponentsReady", function () {
@@ -74,27 +138,19 @@
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
+                console.log(data.inbox);
                 grid.items = data.inbox;
+                setTimeout(function() {
+                    grid.selectItem = [items[1]];
+                }, 1000);
             }).catch(function (err) {
                 console.error(err);
             });
-        });
 
-        // give mobile menu button functionality
-        let menuButton = document.querySelector(".menu-icon");
-        let menuItems = document.querySelector("nav .nav-items");
-        menuButton.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            menuItems.classList.toggle("show");
-        };
-
-        window.onclick = function(e) {
-            console.log(menuItems.contains(e.target));
-            if (!menuItems.contains(e.target)) {
-                menuItems.classList.remove("show");
+            function onActiveItemChange() {
+                console.log("item changed");
             }
-        }
+        });
     </script>
 </body>
 

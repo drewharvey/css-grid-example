@@ -1,6 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400');
 
 :root {
+    --color-primary: #1abc9c;
+    --color-bg: #EEE;
+    --color-bg-alt: #34495e;
+    --color-bg-alt-highlight: #2c3e50;
 }
 
 html,
@@ -9,26 +13,66 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: 'Shadows Into Light Two', cursive;
-    color: #333;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    color: var(--color-bg-alt);
+    background: var(--color-bg);
+}
+
+a {
+    text-decoration: none;
+    color: currentColor;
+}
+
+.changeThemeBtn {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background: url(images/trump-face-01.png) no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+    .changeThemeBtn:hover {
+        background-image: url(images/trump-face-02.png);
+    }
+    .changeThemeBtn:hover + .trump-quote {
+        opacity: 1;
+        transition: all 0.2s;
+    }
+
+.trump-quote {
+    position: absolute;
+    opacity: 0;
+    top: 10px;
+    right: 50px;
+    padding: 5px;
+    border-radius: 5px;
     background: #FFF;
+    color: #333;
+    transition: all 0.2s;
 }
 
 .grid-container {
     display: grid;
     grid-gap: 0;
-    grid-template-rows: 50px 50px 1fr 50px;
+    grid-template-rows: 50px 50px 1fr 30px;
     grid-template-areas: "header" "sidebar" "content" "footer"
 }
 
 header {
     grid-area: header;
-    margin: auto 0;
-    border: solid 1px #ccc; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background: var(--color-bg-alt);
+    color: #FFF;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 header>h1 {
     margin: 0;
+    padding: 0;
 }
 
 nav {
@@ -37,39 +81,50 @@ nav {
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: #FFF;
+    background: var(--color-bg-alt);
+    color: #FFF;
+    font-weight: 400;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
     z-index: 2;
 }
 
 nav .menu-icon {
+    display: flex;
+    align-items: center;
     padding: 10px;
     margin: auto 0;
 }
+    nav .menu-icon img {
+        width: 20px;
+        margin-right: 10px;
+    }
 
 nav .nav-items {
     display: block;
     position: relative;
-    left: -100%;
+    height: 0;
+    left: -100%; 
+    background: var(--color-bg-alt);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    transition: all 0.25s;
+    transition: left 0.25s, height 0.5s;
 }
 
 nav .nav-items.show {
+    height: 500px;
     left: 0;
-    transition: all 0.25s;
+    transition: left 0.25s;
 }
 
 nav .nav-items .nav-item {
     display: block;
     width: calc(100% - 10px);
     padding: 10px 5px;
-    border-bottom: solid 1px #CCC;
-    background: #FFF;
+    border-bottom: solid 1px var(--color-bg-alt-highlight);
 }
 
 nav .nav-item.selected,
 nav .nav-item:hover {
-    background: #EEE;
+    background: var(--color-primary);
 }
 
 main {
@@ -87,28 +142,32 @@ footer {
     text-align: center;
     background: #333;
     color: #CCC;
+    font-size: 0.8em;
 }
 
 .preview-pane {
     grid-area: sidebar2;
     display: none;
     padding: 10px;
+    line-height: 1.5em;
 }
 
 .email-list {
     height: 100%;
+    font-size: 0.9em;
 }
 
 
 /* Medium Screens */
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 768px) {
     .grid-container {
         grid-template-columns: 200px 1fr;
-        grid-template-rows: 50px 1fr 50px;
+        grid-template-rows: 50px 1fr 30px;
         grid-template-areas: "header   header" "sidebar  content" "footer   footer";
     }
     nav .nav-items {
+        display: block;
         left: 0;
         box-shadow: none;
     }
@@ -123,7 +182,7 @@ footer {
 @media only screen and (min-width: 1200px) {
     .grid-container {
         grid-template-columns: 200px 1fr 1fr;
-        grid-template-rows: 50px 1fr 50px;
+        grid-template-rows: 50px 1fr 30px;
         grid-template-areas: "header  header  header" "sidebar content sidebar2" "footer  footer  footer";
     }
 
