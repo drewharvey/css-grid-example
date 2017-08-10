@@ -28,7 +28,11 @@ a {
     display: grid;
     grid-gap: 0;
     grid-template-rows: 50px 50px 1fr 30px;
-    grid-template-areas: "header" "nav" "email-list" "footer"
+    grid-template-areas: 
+        "header" 
+        "nav" 
+        "main" 
+        "footer";
 }
 
 header {
@@ -66,10 +70,11 @@ nav .menu-icon {
     padding: 10px;
     margin: auto 0;
 }
-    nav .menu-icon img {
-        width: 20px;
-        margin-right: 10px;
-    }
+
+nav .menu-icon img {
+    width: 20px;
+    margin-right: 10px;
+}
 
 nav .nav-items {
     display: block;
@@ -104,6 +109,13 @@ main {
     overflow: hidden;
 }
 
+aside {
+    grid-area: subcontent;
+    display: none;
+    padding: 10px;
+    line-height: 1.5em;
+}
+
 footer {
     grid-area: footer;
     display: flex;
@@ -117,18 +129,10 @@ footer {
     font-size: 0.8em;
 }
 
-.preview-pane {
-    grid-area: preview-panel;
-    display: none;
-    padding: 10px;
-    line-height: 1.5em;
-}
-
 .email-list {
     height: 100%;
     font-size: 0.9em;
 }
-
 
 /* Medium Screens */
 
@@ -136,7 +140,10 @@ footer {
     .grid-container {
         grid-template-columns: 200px 1fr;
         grid-template-rows: 50px 1fr 30px;
-        grid-template-areas: "header   header" "nav  email-list" "footer   footer";
+        grid-template-areas: 
+            "header header" 
+            "nav    main" 
+            "footer footer";
     }
     nav .nav-items {
         display: block;
@@ -148,17 +155,19 @@ footer {
     }
 }
 
-
 /* Large Screens */
 
 @media only screen and (min-width: 1200px) {
     .grid-container {
         grid-template-columns: 200px 1fr 1fr;
         grid-template-rows: 50px 1fr 30px;
-        grid-template-areas: "header  header  header" "nav email-list preview-panel" "footer  footer  footer";
+        grid-template-areas: 
+            "header header  header" 
+            "nav    main    subcontent" 
+            "footer footer  footer";
     }
 
-    .preview-pane {
+    aside {
         display: block;
     }
 }

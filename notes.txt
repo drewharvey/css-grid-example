@@ -1,4 +1,4 @@
- - start by outlineing the main sections of the application UI.
+ - We start by outlineing the main sections of the application UI.
 
     - header
     - navigation
@@ -15,11 +15,11 @@
     <!-- navigation -->
     <nav></nav>
 
-    <!-- email list -->
+    <!-- list of emails -->
     <main></main>
 
     <!-- previe panel -->
-    <div class="preview-panel"></div>
+    <aside></aside>
 
     <!-- footer -->
     <footer>/footer>
@@ -42,7 +42,9 @@
    elements with just a single css rule!
 
    A common use case is to move, scale, or reposition elements on different screen sizes.  We can use media queries
-   and the grid-template-areas css attribute to set the grid-area size and positions.
+   and the grid-template-areas css attribute to set the grid-area size and positions. For this application
+   we want the navigation to be at the top on small displays, but on larger displays it should be on the side.
+   We can easily make this position by rearranging the grid-areas using the grid-template-areas CSS rule.
 
     Define the grid areas and how they are positioned in CSS:
 
@@ -53,7 +55,7 @@
             grid-template-areas: 
                 "header" 
                 "nav" 
-                "email-list" 
+                "main" 
                 "footer";
         }
 
@@ -63,7 +65,7 @@
             .grid-container {
                 grid-template-areas: 
                     "header   header" 
-                    "nav      email-list" 
+                    "nav      main" 
                     "footer   footer";
             }
         }
@@ -74,17 +76,44 @@
             .grid-container {
                 grid-template-areas: 
                     "header  header     header" 
-                    "nav     email-list preview-panel" 
+                    "nav     main       subcontent" 
                     "footer  footer     footer";
             }
+        }
+
+ - Now that we have defined how we want the grid-areas to be positioned, we need to associate our page
+   elements with specific grid-areas.  An element can specify 'grid-area' and the name of the grid-area. 
+   This will place the element into that grid-area in the layout.
+
+   Note that in this example most of the element names are the same as the grid-area name. This is
+   not required and is just to simplify the example.
+
+        header {
+            grid-area: header;
+        }
+
+        nav {
+            grid-area: nav;
+        }
+
+        main {
+            grid-area: main;
+        }
+
+        aside {
+            grid-area: subcontent;
+        }
+
+        footer {
+            grid-area: footer;
         }
 
  - One thing you'll notice if you use the code above, is that the heights and widths of the grid are not
    how we want them.  We need to specify the height for each row, and the width for each column.  
 
-   Row height is specified using the grid-template-rows attribute.
+   Row height is specified using the grid-template-rows CSS rule.
 
-   Column width is specified using the grid-template-rows attribute.
+   Column width is specified using the grid-template-rows CSS rule.
 
         /* Small Screens */
 
@@ -96,7 +125,7 @@
             grid-template-areas: 
                 "header" 
                 "nav" 
-                "email-list" 
+                "main" 
                 "footer";
         }
 
@@ -111,7 +140,7 @@
                 /* defines the grid areas */
                 grid-template-areas: 
                     "header   header" 
-                    "nav      email-list" 
+                    "nav      main" 
                     "footer   footer";
             }
         }
@@ -127,7 +156,7 @@
                 /* defines the grid areas */
                 grid-template-areas: 
                     "header  header     header" 
-                    "nav     email-list preview-panel" 
+                    "nav     main       subcontent" 
                     "footer  footer     footer";
             }
         }
