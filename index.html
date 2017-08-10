@@ -11,105 +11,100 @@
   <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
   <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
   <link rel="import" href="bower_components/vaadin-grid/vaadin-grid-sorter.html">
+  <link rel="import" href="bower_components/polymer/lib/elements/dom-bind.html">
 </head>
 
 <body class="grid-container">
+  <dom-bind>
+    <template>
+      <header>
+        <h1>Mediocre Mailer</h1>
+      </header>
 
-  <header>
-    <h1>Mediocre Mailer</h1>
-  </header>
+      <nav>
+        <a href="#" class="menu-icon"><img src="images/menu.svg"> Inbox</a>
+        <div class="nav-items">
+          <a class="nav-item selected" href="#">Inbox</a>
+          <a class="nav-item" href="#">Sent</a>
+          <a class="nav-item" href="#">Junk</a>
+          <a class="nav-item" href="#">Trash</a>
+        </div>
+      </nav>
 
-  <nav>
-    <a href="#" class="menu-icon"><img src="images/menu.svg"> Inbox</a>
-    <div class="nav-items">
-      <a class="nav-item selected" href="#">Inbox</a>
-      <a class="nav-item" href="#">Sent</a>
-      <a class="nav-item" href="#">Junk</a>
-      <a class="nav-item" href="#">Trash</a>
-    </div>
-  </nav>
+      <main>
+        <vaadin-grid class="email-list" items="[[emails]]">
+          <vaadin-grid-column width="150px" flex-grow="0">
+            <template class="header">
+              <vaadin-grid-sorter path="from">From</vaadin-grid-sorter>
+            </template>
+            <template>[[item.from]]</template>
+          </vaadin-grid-column>
+          <vaadin-grid-column>
+            <template class="header">
+              <vaadin-grid-sorter path="title">Subject</vaadin-grid-sorter>
+            </template>
+            <template>[[item.title]]</template>
+          </vaadin-grid-column>
+          <vaadin-grid-column width="50px" flex-grow="0">
+            <template class="header">
+              <vaadin-grid-sorter path="when"></vaadin-grid-sorter>
+            </template>
+            <template>[[item.when]]</template>
+          </vaadin-grid-column>
+        </vaadin-grid>
+      </main>
 
-  <main>
-    <vaadin-grid class="email-list" active-item="0" on-active-item-changed="onActiveItemChange">
-      <vaadin-grid-column width="150px" flex-grow="0">
-        <template class="header">
-          <vaadin-grid-sorter path="from">From</vaadin-grid-sorter>
-        </template>
-        <template>[[item.from]]</template>
-      </vaadin-grid-column>
-      <vaadin-grid-column>
-        <template class="header">
-          <vaadin-grid-sorter path="title">Subject</vaadin-grid-sorter>
-        </template>
-        <template>[[item.title]]</template>
-      </vaadin-grid-column>
-      <vaadin-grid-column width="50px" flex-grow="0">
-        <template class="header">
-          <vaadin-grid-sorter path="when"></vaadin-grid-sorter>
-        </template>
-        <template>[[item.when]]</template>
-      </vaadin-grid-column>
-    </vaadin-grid>
-  </main>
+      <aside>
+        <h2>[[selectedEmail.title]]</h2>
+        <div>
+          [[selectedEmail.from]]<br> [[selectedEmail.when]]
+        </div>
+        <div>
+          <p>[[selectedEmail.body]]</p>
+        </div>
+      </aside>
 
-  <aside>
-    <h2>I think I discovered the purpose of our universe</h2>
-    <div>
-      From Bill Nye<br> 1 Week ago
-    </div>
-    <div>
-      <p>Hey whats up man, this is your friend Bill. I just realized that the universe is actually
-        meant to transform into a huge dog/human hybrid. If we keep dumping oil and chemicals
-        into our rivers it should provide enought kenetic energy to encapsulate an origin of
-        mass that is equivilent to the quantization of artificial plasm!</p>
-    </div>
-  </aside>
-
-  <footer>
-    Designed by you
-  </footer>
-
+      <footer>
+        Designed by the Drew.
+      </footer>
+    </template>
+  </dom-bind>
   <script>
     // give mobile menu button functionality
     let menuButton = document.querySelector('.menu-icon');
     let menuItems = document.querySelector('nav .nav-items');
-    menuButton.onclick = function (e) {
+    menuButton.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
       menuItems.classList.toggle('show');
-    };
+    });
 
     // close mobile menu if clicked outside of menu
-    window.onclick = function (e) {
+    window.addEventListener('click', e => {
       if (!menuItems.contains(e.target)) {
         menuItems.classList.remove('show');
       }
-    }
+    });
 
     // The Web Components polyfill introduces a custom event we can
     // use to determine when the custom elements are ready to be used.
     document.addEventListener('WebComponentsReady', () => {
 
-      // Reference to the grid element.
-      let grid = document.querySelector('vaadin-grid');
+      let binder = document.querySelector('dom-bind');
+      let emailList = document.querySelector('vaadin-grid');
 
       // fetch our test data and populate our grid with the latest emails
       fetch('test-data/emails.json')
-        .then(function (response) {
-          return response.json();
-        }).then(function (data) {
-          console.log(data.inbox);
-          grid.items = data.inbox;
-          setTimeout(function () {
-            grid.selectItem = [items[1]];
-          }, 1000);
-        }).catch(function (err) {
-          console.error(err);
-        });
+        .then(response => response.json())
+        .then(data => {
+          binder.emails = data.inbox;
+          emailList.activeItem = binder.emails[0];
+        }).catch(err => console.error(err));
 
-      function onActiveItemChange() {
-        console.log('item changed');
-      }
+      emailList.addEventListener('active-item-changed', evt => {
+        binder.selectedEmail = evt.detail.value;
+        emailList.selectedItems = binder.selectedEmail ? [binder.selectedEmail] : [];
+      });
     });
   </script>
 </body>
