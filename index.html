@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>CSS Grid Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- web component imports -->
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
     <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
@@ -93,7 +93,7 @@
             let grid = document.querySelector("vaadin-grid");
 
             // fetch our test data and populate our grid with the latest emails
-            fetch('emails.json', {
+            fetch('test-data/emails.json', {
                 method: 'get'
             }).then(function (response) {
                 return response.json();
