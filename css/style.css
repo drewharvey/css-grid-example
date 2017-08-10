@@ -27,7 +27,7 @@ a {
 .grid-container {
     display: grid;
     grid-gap: 0;
-    grid-template-rows: 50px 50px auto 1fr 30px;
+    grid-template-rows: 50px 30px auto 1fr 30px;
     grid-template-areas: 
         "header" 
         "nav" 
