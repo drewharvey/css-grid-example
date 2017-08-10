@@ -24,39 +24,11 @@ a {
     color: currentColor;
 }
 
-.changeThemeBtn {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    background: url(images/trump-face-01.png) no-repeat;
-    background-size: contain;
-    cursor: pointer;
-}
-    .changeThemeBtn:hover {
-        background-image: url(images/trump-face-02.png);
-    }
-    .changeThemeBtn:hover + .trump-quote {
-        opacity: 1;
-        transition: all 0.2s;
-    }
-
-.trump-quote {
-    position: absolute;
-    opacity: 0;
-    top: 10px;
-    right: 50px;
-    padding: 5px;
-    border-radius: 5px;
-    background: #FFF;
-    color: #333;
-    transition: all 0.2s;
-}
-
 .grid-container {
     display: grid;
     grid-gap: 0;
     grid-template-rows: 50px 50px 1fr 30px;
-    grid-template-areas: "header" "sidebar" "content" "footer"
+    grid-template-areas: "header" "nav" "email-list" "footer"
 }
 
 header {
@@ -76,7 +48,7 @@ header>h1 {
 }
 
 nav {
-    grid-area: sidebar;
+    grid-area: nav;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -128,7 +100,7 @@ nav .nav-item:hover {
 }
 
 main {
-    grid-area: content;
+    grid-area: main;
     overflow: hidden;
 }
 
@@ -146,7 +118,7 @@ footer {
 }
 
 .preview-pane {
-    grid-area: sidebar2;
+    grid-area: preview-panel;
     display: none;
     padding: 10px;
     line-height: 1.5em;
@@ -164,7 +136,7 @@ footer {
     .grid-container {
         grid-template-columns: 200px 1fr;
         grid-template-rows: 50px 1fr 30px;
-        grid-template-areas: "header   header" "sidebar  content" "footer   footer";
+        grid-template-areas: "header   header" "nav  email-list" "footer   footer";
     }
     nav .nav-items {
         display: block;
@@ -183,7 +155,7 @@ footer {
     .grid-container {
         grid-template-columns: 200px 1fr 1fr;
         grid-template-rows: 50px 1fr 30px;
-        grid-template-areas: "header  header  header" "sidebar content sidebar2" "footer  footer  footer";
+        grid-template-areas: "header  header  header" "nav email-list preview-panel" "footer  footer  footer";
     }
 
     .preview-pane {

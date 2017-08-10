@@ -17,8 +17,6 @@
 
     <header>
         <h1>Email Vista 2000 Millennium Edition</h1>
-        <div class="changeThemeBtn" onclick="setRandomTheme()"></div>
-        <div class="trump-quote">Make our theme great again!</div>
     </header>
 
     <nav>
@@ -85,44 +83,6 @@
             if (!menuItems.contains(e.target)) {
                 menuItems.classList.remove("show");
             }
-        }
-
-        var numClicks = 0;
-        function setRandomTheme() {
-            numClicks++;
-            if (numClicks % 10 === 0) {
-                changeQuote(numClicks);
-            }
-            let cssColorVars = [
-                "--color-primary",
-                "--color-bg",
-                "--color-bg-alt",
-                "--color-bg-alt-highlight"
-            ];
-            for (let i in cssColorVars) {
-                document.documentElement.style.setProperty(cssColorVars[i], getRandomColor());
-            }
-        }
-
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-        function changeQuote(numClicks) {
-            let quotes = [
-                'Hmmm... not sure how this works',
-                'We need more borders',
-                'An "extremely credible source" told me this looks good'
-            ];
-            let i = numClicks / 10;
-            console.log(i);
-            let quote = quotes.length > i ? quotes[i] : "The beauty of me is that I’m very rich and this website is poor";
-            document.querySelector('.trump-quote').innerHTML = quotes[i];
         }
 
         // The Web Components polyfill introduces a custom event we can

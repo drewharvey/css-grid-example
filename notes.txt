@@ -1,13 +1,13 @@
- - can use margin: auto to vert/horiz align items inside gridarea
-
- - start by outlineing the main sections of the application UI:
+ - start by outlineing the main sections of the application UI.
 
     - header
     - navigation
     - email list
     - preview panel
+    - footer
 
- - now we can layout our basic elements in the DOM.  we can also include a footer element:
+ - Now we can layout our basic elements in the DOM. Anyone looking at this could easily see what the different sections
+   of the UI are.
 
     <!-- header -->
     <header></header>
@@ -24,17 +24,25 @@
     <!-- footer -->
     <footer>/footer>
 
- - next we should figure out how we want our elements to display in different devices. for this example lets do small, medium, 
-    and large size screens
+ - Next we need to figure out how to display these sections on different screen sizes. For this example lets focus on 
+   small, medium, and large size screens.
 
-    [drawing of designs for small, medium, large]
+    [sections.jpg]
 
- - We can take our laytout designs and create a grid that encapsulates the different parts.
+ - We need to draw a grid that will encapsulate all of the sections of the UI.
 
-    [drawings with grids shown]
+    [grid-areas.jpg]
 
- - Css-Grid allows us to easily define each section of the grid using 'gridareas' and then associate our elements with one of these
-    gridareas.
+ - Look at the medium display example.  Notice how there are two cells that are labeled "Header".
+   This is because our header section will take up both of those cells.  The entire space both 
+   Header parts take up is called a grid-area.  The grid-area defines and names a portion of the entire
+   grid.  By having this, we can simply use CSS tell the <header> element to be placed in the "header" grid-area.
+   We could even tell the <header> element to be positioned in the "footer" grid-area and you would see your
+   UI heading at the bottom!  This is handy because it means we can change the ordering and position and size of our html 
+   elements with just a single css rule!
+
+   A common use case is to move, scale, or reposition elements on different screen sizes.  We can use media queries
+   and the grid-template-areas css attribute to set the grid-area size and positions.
 
     Define the grid areas and how they are positioned in CSS:
 
@@ -42,23 +50,20 @@
 
         .grid-container {
             display: grid;
-            grid-template-rows: 50px 50px 1fr 30px;
             grid-template-areas: 
                 "header" 
-                "sidebar" 
-                "content" 
-                "footer"
+                "nav" 
+                "email-list" 
+                "footer";
         }
 
         /* Medium Screens */
 
         @media only screen and (min-width: 768px) {
             .grid-container {
-                grid-template-columns: 200px 1fr;
-                grid-template-rows: 50px 1fr 30px;
                 grid-template-areas: 
                     "header   header" 
-                    "sidebar  content" 
+                    "nav      email-list" 
                     "footer   footer";
             }
         }
@@ -67,11 +72,63 @@
 
         @media only screen and (min-width: 1200px) {
             .grid-container {
-                grid-template-columns: 200px 1fr 1fr;
-                grid-template-rows: 50px 1fr 30px;
                 grid-template-areas: 
-                    "header  header  header" 
-                    "sidebar content sidebar2" 
-                    "footer  footer  footer";
+                    "header  header     header" 
+                    "nav     email-list preview-panel" 
+                    "footer  footer     footer";
             }
         }
+
+ - One thing you'll notice if you use the code above, is that the heights and widths of the grid are not
+   how we want them.  We need to specify the height for each row, and the width for each column.  
+
+   Row height is specified using the grid-template-rows attribute.
+
+   Column width is specified using the grid-template-rows attribute.
+
+        /* Small Screens */
+
+        .grid-container {
+            display: grid;
+            /* sets the height of each row */
+            grid-template-rows: 50px 50px 1fr 30px;
+            /* defines the grid areas */
+            grid-template-areas: 
+                "header" 
+                "nav" 
+                "email-list" 
+                "footer";
+        }
+
+        /* Medium Screens */
+
+        @media only screen and (min-width: 768px) {
+            .grid-container {
+                /* sets the width of each column */
+                grid-template-columns: 200px 1fr;
+                /* sets the height of each row */
+                grid-template-rows: 50px 1fr 30px;
+                /* defines the grid areas */
+                grid-template-areas: 
+                    "header   header" 
+                    "nav      email-list" 
+                    "footer   footer";
+            }
+        }
+
+        /* Large Screens */
+
+        @media only screen and (min-width: 1200px) {
+            .grid-container {
+                /* sets the width of each column */
+                grid-template-columns: 200px 1fr 1fr;
+                /* sets the height of each row */
+                grid-template-rows: 50px 1fr 30px;
+                /* defines the grid areas */
+                grid-template-areas: 
+                    "header  header     header" 
+                    "nav     email-list preview-panel" 
+                    "footer  footer     footer";
+            }
+        }
+
