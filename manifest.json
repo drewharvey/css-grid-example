@@ -1,6 +1,6 @@
 {
-  "name": "css-grid-test",
-  "short_name": "css-grid-test",
+  "name": "css-grid-example",
+  "short_name": "css-grid-example",
   "start_url": "/",
   "display": "standalone"
 }

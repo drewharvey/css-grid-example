@@ -1,7 +1,7 @@
 <dom-module id="vaadin-grid-column-reordering-themability-styles">
   <template>
     <style>
-      :host([reordering]) .vaadin-grid-cell {
+      vaadin-grid-table[reordering] .vaadin-grid-cell {
         background: #000;
       }
 
@@ -9,17 +9,21 @@
         background: var(--primary-color, #000);
       }
 
-      :host([reordering]) .vaadin-grid-cell:not([detailscell]) ::content > vaadin-grid-cell-content {
+      vaadin-grid-table[reordering] .vaadin-grid-cell:not([detailscell]) ::slotted(vaadin-grid-cell-content) {
         transition: opacity 300ms;
         transform: translateZ(0);
         opacity: 0.8;
       }
 
-      :host([reordering]) .vaadin-grid-cell[reorder-status="allowed"] ::content > vaadin-grid-cell-content {
+      #scroller .vaadin-grid-cell[reorder-status="allowed"] ::slotted(vaadin-grid-cell-content) {
         opacity: 1;
       }
 
-      :host([reordering]) .vaadin-grid-cell[reorder-status="dragging"] ::content > vaadin-grid-cell-content {
+      #scroller .vaadin-grid-cell[reorder-status="dragging"] {
+        background: var(--primary-color, #000);
+      }
+
+      #scroller .vaadin-grid-cell[reorder-status="dragging"] ::slotted(vaadin-grid-cell-content) {
         opacity: 0.95;
       }
     </style>
@@ -75,6 +79,10 @@
     ],
 
     _updateOrders: function(columnTree, splices) {
+      if (columnTree === undefined || splices === undefined) {
+        return;
+      }
+
       // Set order numbers to top-level columns
       columnTree[0].forEach(function(column, index) {
         column._order = (index + 1) * this._orderBaseScope;
@@ -82,6 +90,13 @@
     },
 
     _onDragStart: function(e) {
+      // We allow “dragstart” to start reordering only directly on
+      // <vaadin-grid-cell-content> elements. Otherwise, any cell content with
+      // `draggable="true"` attribute can start column reordering, issue #895.
+      if (e.target.localName !== 'vaadin-grid-cell-content') {
+        return;
+      }
+
       var cell = this._getCellByCellContent(e.target);
       if (cell) {
         this.toggleAttribute('reordering', true);
@@ -100,7 +115,7 @@
     },
 
     _setSiblingsReorderStatus: function(column, status) {
-      Polymer.dom(Polymer.dom(column).parentNode).children.filter(function(child) {
+      Array.prototype.filter.call(Polymer.dom(Polymer.dom(column).parentNode).children, function(child) {
         return /column/.test(child.localName) && this._isSwapAllowed(child, column);
       }, this).forEach(function(sibling) {
         sibling._reorderStatus = status;
@@ -108,8 +123,23 @@
     },
 
     _onDragOver: function(e) {
+      if (!this._draggedColumn) {
+        // Reordering didn’t start. Skip this event.
+        return;
+      }
+
+      // “dragover” can happen both on and inside <vaadin-grid-cell-content>,
+      // so we look through the event path.
+      var path = Polymer.Element ? e.composedPath() : Polymer.dom(e).path;
+      var cellContent = path.filter(function(el) {
+        return el.localName === 'vaadin-grid-cell-content';
+      })[0];
+      if (!cellContent) {
+        return;
+      }
+
       e.preventDefault();
-      var targetCell = this._getCellByCellContent(e.target);
+      var targetCell = this._getCellByCellContent(cellContent);
       var targetColumn = this._getTargetColumn(targetCell, this._draggedColumn);
 
       if (targetColumn &&
@@ -140,6 +170,11 @@
     },
 
     _onDragEnd: function(e) {
+      if (!this._draggedColumn) {
+        // Reordering didn’t start. Skip this event.
+        return;
+      }
+
       this.toggleAttribute('reordering', false);
       this._draggedColumn._reorderStatus = '';
       this._setSiblingsReorderStatus(this._draggedColumn, '');
@@ -157,7 +192,7 @@
     },
 
     _isSwappableByPosition: function(targetColumn, clientX) {
-      var targetCell = Polymer.dom(this.$.header).querySelectorAll('th').filter(function(cell) {
+      var targetCell = Array.prototype.filter.call(Polymer.dom(this.$.header).querySelectorAll('.vaadin-grid-cell'), function(cell) {
         return cell.column === targetColumn;
       })[0];
       var sourceCellRect = this.$.header.querySelector('[reorder-status=dragging]').getBoundingClientRect();
@@ -170,19 +205,11 @@
     },
 
     _getCellByCellContent: function(cellContent) {
-      if (cellContent) {
-        var contentId = null;
-        while (contentId === null && cellContent !== this.target && cellContent) {
-          if (cellContent.localName === 'vaadin-grid-cell-content') {
-            contentId = cellContent.id;
-          }
-          cellContent = cellContent.parentElement;
-        }
-
-        if (contentId !== null) {
-          var injectionPoint = Polymer.dom(this.$.table).querySelector('content[select="#' + contentId + '"]');
-          return Polymer.dom(injectionPoint).parentNode;
-        }
+      if (Polymer.Element) {
+        return cellContent.assignedSlot.parentNode;
+      } else {
+        var insertionPoint = Polymer.dom(cellContent).getDestinationInsertionPoints()[0];
+        return Polymer.dom(insertionPoint).parentNode;
       }
     },
 

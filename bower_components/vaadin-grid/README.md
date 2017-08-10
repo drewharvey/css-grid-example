@@ -4,9 +4,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/vaadin/vaadin-grid/badge.svg?branch=master)](https://coveralls.io/github/vaadin/vaadin-grid?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/vaadin-core-elements?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# &lt;vaadin-grid&gt; v2
+# &lt;vaadin-grid&gt; v3
 
-[Live Demo ↗](https://cdn.vaadin.com/vaadin-grid/2.0.0/demo/)
+[Live Demo ↗](https://cdn.vaadin.com/vaadin-grid/3.0.1/demo/)
 
 > :eyes: Looking for &lt;vaadin-grid&gt; v1.x? Please see the [the v1 branch](https://github.com/vaadin/vaadin-grid/tree/1.x)
 
@@ -16,7 +16,7 @@
 ```
 <custom-element-demo>
   <template>
-    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="vaadin-grid.html">
     <next-code-block></next-code-block>
   </template>
@@ -58,20 +58,15 @@
 <img src="https://github.com/vaadin/vaadin-grid/raw/master/grid.gif">
 
 
-## Contributing
+## Running demos and tests in browser
 
 1. Fork the `vaadin-grid` repository and clone it locally.
 
 1. Make sure you have [npm](https://www.npmjs.com/) installed.
 
-1. When in the `vaadin-grid` directory, run `npm install` to install dependencies.
+1. When in the `vaadin-grid` directory, run `npm install` and then `bower install` to install dependencies.
 
-
-## Running demos and tests in browser
-
-1. Install [polyserve](https://www.npmjs.com/package/polyserve): `npm install -g polyserve`
-
-1. When in the `vaadin-grid` directory, run `polyserve --open`, browser will automatically open the component API documentation.
+1. Run `polymer serve --open`, browser will automatically open the component API documentation.
 
 1. You can also open demo or in-browser tests by adding **demo** or **test** to the URL, for example:
 
@@ -81,9 +76,7 @@
 
 ## Running tests from the command line
 
-1. Install [web-component-tester](https://www.npmjs.com/package/web-component-tester): `npm install -g web-component-tester`
-
-1. When in the `vaadin-grid` directory, run `wct` or `npm test`
+1. When in the `vaadin-grid` directory, run `polymer test`
 
 
 ## Following the coding style
@@ -94,7 +87,7 @@ We are using [ESLint](http://eslint.org/) for linting JavaScript code. You can c
 ## Creating a pull request
 
   - Make sure your code is compliant with our code linters: `gulp lint`
-  - Check that tests are passing: `npm test`
+  - Check that tests are passing: `polymer test`
   - [Submit a pull request](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) with detailed title and description
   - Wait for response from one of Vaadin Elements team members
 
