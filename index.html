@@ -71,45 +71,44 @@
 
   <script>
     // give mobile menu button functionality
-    let menuButton = document.querySelector(".menu-icon");
-    let menuItems = document.querySelector("nav .nav-items");
+    let menuButton = document.querySelector('.menu-icon');
+    let menuItems = document.querySelector('nav .nav-items');
     menuButton.onclick = function (e) {
       e.preventDefault();
       e.stopPropagation();
-      menuItems.classList.toggle("show");
+      menuItems.classList.toggle('show');
     };
 
     // close mobile menu if clicked outside of menu
     window.onclick = function (e) {
       if (!menuItems.contains(e.target)) {
-        menuItems.classList.remove("show");
+        menuItems.classList.remove('show');
       }
     }
 
     // The Web Components polyfill introduces a custom event we can
     // use to determine when the custom elements are ready to be used.
-    document.addEventListener("WebComponentsReady", function () {
+    document.addEventListener('WebComponentsReady', () => {
 
       // Reference to the grid element.
-      let grid = document.querySelector("vaadin-grid");
+      let grid = document.querySelector('vaadin-grid');
 
       // fetch our test data and populate our grid with the latest emails
-      fetch('test-data/emails.json', {
-        method: 'get'
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log(data.inbox);
-        grid.items = data.inbox;
-        setTimeout(function () {
-          grid.selectItem = [items[1]];
-        }, 1000);
-      }).catch(function (err) {
-        console.error(err);
-      });
+      fetch('test-data/emails.json')
+        .then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          console.log(data.inbox);
+          grid.items = data.inbox;
+          setTimeout(function () {
+            grid.selectItem = [items[1]];
+          }, 1000);
+        }).catch(function (err) {
+          console.error(err);
+        });
 
       function onActiveItemChange() {
-        console.log("item changed");
+        console.log('item changed');
       }
     });
   </script>
