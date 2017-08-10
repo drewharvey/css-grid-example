@@ -85,12 +85,11 @@ nav .nav-items {
     left: -100%; 
     background: var(--color-bg-alt);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    transition: all 0.25s;
 }
 
 nav .nav-items.show {
     transform: translateX(100%);
-    transition: all 0.25s;
+    transition: transform 0.25s;
 }
 
 nav .nav-items .nav-item {
