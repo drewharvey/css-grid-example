@@ -30,7 +30,7 @@
     </nav>
 
     <main>
-        <x-selection></x-selection>
+         <x-selection></x-selection>
         <vaadin-grid class="email-list" active-item="0" on-active-item-changed="onActiveItemChange">
             <vaadin-grid-column width="150px" flex-grow="0">
                 <template class="header">
@@ -50,7 +50,7 @@
                 </template>
                 <template>[[item.when]]</template>
             </vaadin-grid-column>
-        </vaadin-grid>
+        </vaadin-grid> 
     </main>
 
     <aside>
@@ -100,9 +100,7 @@
             }).then(function (data) {
                 console.log(data.inbox);
                 grid.items = data.inbox;
-                setTimeout(function() {
-                    grid.selectItem = [items[1]];
-                }, 1000);
+                grid.selectItem(data.inbox[0]);
             }).catch(function (err) {
                 console.error(err);
             });
