@@ -56,6 +56,7 @@
                 "header" 
                 "nav" 
                 "main" 
+                "subcontent" 
                 "footer";
         }
 
@@ -66,6 +67,7 @@
                 grid-template-areas: 
                     "header   header" 
                     "nav      main" 
+                    "nav      subcontent" 
                     "footer   footer";
             }
         }
@@ -120,7 +122,7 @@
         .grid-container {
             display: grid;
             /* sets the height of each row */
-            grid-template-rows: 50px 50px 1fr 30px;
+            grid-template-rows: 50px 50px auto 1fr 30px;
             /* defines the grid areas */
             grid-template-areas: 
                 "header" 
@@ -136,7 +138,7 @@
                 /* sets the width of each column */
                 grid-template-columns: 200px 1fr;
                 /* sets the height of each row */
-                grid-template-rows: 50px 1fr 30px;
+                grid-template-rows: 50px 1fr 1fr 30px;
                 /* defines the grid areas */
                 grid-template-areas: 
                     "header   header" 

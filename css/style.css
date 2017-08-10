@@ -27,11 +27,12 @@ a {
 .grid-container {
     display: grid;
     grid-gap: 0;
-    grid-template-rows: 50px 50px 1fr 30px;
+    grid-template-rows: 50px 50px auto 1fr 30px;
     grid-template-areas: 
         "header" 
         "nav" 
         "main" 
+        "subcontent" 
         "footer";
 }
 
@@ -79,17 +80,17 @@ nav .menu-icon img {
 nav .nav-items {
     display: block;
     position: relative;
-    height: 0;
+    height: 500px;
+    margin-top: 10px;
     left: -100%; 
     background: var(--color-bg-alt);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    transition: left 0.25s, height 0.5s;
+    transition: all 0.25s;
 }
 
 nav .nav-items.show {
-    height: 500px;
-    left: 0;
-    transition: left 0.25s;
+    transform: translateX(100%);
+    transition: all 0.25s;
 }
 
 nav .nav-items .nav-item {
@@ -111,7 +112,6 @@ main {
 
 aside {
     grid-area: subcontent;
-    display: none;
     padding: 10px;
     line-height: 1.5em;
 }
@@ -139,15 +139,16 @@ footer {
 @media only screen and (min-width: 768px) {
     .grid-container {
         grid-template-columns: 200px 1fr;
-        grid-template-rows: 50px 1fr 30px;
+        grid-template-rows: 50px 1fr 1fr 30px;
         grid-template-areas: 
             "header header" 
             "nav    main" 
+            "nav    subcontent" 
             "footer footer";
     }
     nav .nav-items {
         display: block;
-        left: 0;
+        transform: translateX(100%);
         box-shadow: none;
     }
     nav .menu-icon {
