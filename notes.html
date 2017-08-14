@@ -1,0 +1,84 @@
+<h1>Repositioning Elements with CSS Grid Layout</h1>
+
+<p>
+    Let's say we want to make an email web application.  
+</p>
+    <ul>
+        <li>header</li>
+        <li>navigation</li>
+        <li>email list</li>
+        <li>preview panel</li>
+        <li>footer</li>
+    </ul>
+
+<p>
+    Now we can layout our basic elements in the DOM. Anyone looking at this could easily see what the 
+    different parts of the UI are.
+</p>
+
+<script src="https://gist.github.com/drewharvey/22a34f7eb4d89d9c9d19321d58833e0a.js?file=html-elements.html"></script>
+
+<p>
+    Next we need to figure out how to display these sections on different screen sizes. For this example lets focus on 
+    small, medium, and large size screens.
+</p>
+
+<img alt="" src="/documents/411367/0/css-grid-elements.jpg/f106b6b6-8270-4f94-98be-e870a8758c4f?t=1502746410246" />
+
+<p>
+    We need to draw a grid that will encapsulate all of the sections of the UI. Below you can see the 
+    grid traced by the thick black lines.  The text inside each grid cell is the "grid-area" name. This
+    name is how we can refer to sections of the grid.  A grid-area can take up multiple cells.
+</p>
+
+<img src="/documents/411367/0/css-grid-grid-areas.png/57ab6f6c-d2b9-43a9-83cc-d4e18c468cf8?t=1502746492328" />
+
+<p>
+    Look at the medium display example.  Notice how there are two cells that are labeled "header".
+    This is because our header grid-area takes up both of those cells.  The grid-area defines and names a portion of
+    the grid.  By having this, we can simply use CSS tell the <pre><header></pre> element to be placed in the "header" grid-area.
+    We could even tell the <pre><header></pre> element to be positioned in the "footer" grid-area and you would see your
+    <pre><header></pre> element at the bottom!  This is handy because it means we can change the ordering and position and size of our html 
+    elements with just a single css rule!
+</p>
+<p>
+    The CSS code almost looks identical to our visual image.  Using the grid-template-areas CSS rule, we can
+    define our grid-areas and where what cells they belong to.  Below we see the visual layout right next to
+    the CSS.
+</p>
+
+<img src="/documents/411367/0/css-grid-css-comparison.jpg/517fcb15-81e7-4116-acdd-cc1a72e036ec?t=1502746498802" />
+
+<p>
+   A common use case is to move, scale, or reposition elements on different screen sizes.  We can use media queries
+   and the grid-template-areas css attribute to set the grid-area size and positions. For this application
+   we want the navigation to be at the top on small displays, but on larger displays it should be on the side.
+   We also want the preview panel to display next to the email list on wider displays. 
+   We can easily make this position by rearranging the grid-areas using the grid-template-areas CSS rule.
+</p>
+<p>
+    Define the grid areas and how they are positioned in CSS:
+</p>
+
+<script src="https://gist.github.com/drewharvey/22a34f7eb4d89d9c9d19321d58833e0a.js?file=grid-areas.css"></script>
+
+<p>
+    Now that we have defined how we want the grid-areas to be positioned, we need to associate our page
+    elements with specific grid-areas.  An element can specify 'grid-area' and the name of the grid-area. 
+    This will place the element into that grid-area in the layout.
+
+    Note that in this example most of the element names are the same as the grid-area name. This is
+    not required and is just to simplify the example.
+</p>
+
+<script src="https://gist.github.com/drewharvey/22a34f7eb4d89d9c9d19321d58833e0a.js?file=connect-elements-to-grid-areas.css"></script>
+
+<p>
+    One thing you'll notice if you use the code above, is that the heights and widths of the grid are not
+    how we want them.  We need to specify the height for each row, and the width for each column.  
+</p>
+<ul>
+    <li>Row height is specified using the grid-template-rows CSS rule</li>
+    <li>Column width is specified using the grid-template-rows CSS rule</li>
+</ul>
+<script src="https://gist.github.com/drewharvey/22a34f7eb4d89d9c9d19321d58833e0a.js?file=set-row-column-sizes.css"></script>
