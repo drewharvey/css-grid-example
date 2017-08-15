@@ -1,11 +1,8 @@
-<h1>Repositioning Elements with CSS Grid Layout</h1>
-
 <p>
     Normally if we wanted to reposition an element we would use Javascript to manipulate the 
     DOM structure, removing and re-injecting the target element where ever we want it.
     With CSS grid, we can simply use CSS to tell the grid where elements should be positioned.  
-    We can label sections of the grid (grid-area) and then tell elements what grid-area they 
-    should be in.  This can be especially useful when elements must be repositioned based on the
+    This can be especially useful when elements must be repositioned based on the
     display/device size.
 </p>
 <p>
@@ -13,9 +10,24 @@
     web email application.  We have the mockups for small, medium, and large screens.
 </p>
 
-<img alt="Mockup for Small Display" src="/documents/411367/0/css-grid-mockup-small.jpg/b8a351b0-9046-46ff-b6c0-e1ede7d9a1b8?t=1502753240587" />
-<img alt="Mockup for Medium Display" src="/documents/411367/0/css-grid-mockup-medium.jpg/d849c52a-ab66-4829-862e-47b71b722238?t=1502753247265" />
-<img alt="Mockup for Large Display" src="/documents/411367/0/css-grid-mockup-large.jpg/b37333a5-b207-4e49-81f6-744e35aef320?t=1502753252847" />
+<p>
+    Small Displays:<br>
+    <a href="/documents/411367/0/css-grid-mockup-small.jpg/b8a351b0-9046-46ff-b6c0-e1ede7d9a1b8?t=1502753240587">
+        <img alt="Mockup for Small Display" style="width:100%;max-width:300px;" src="/documents/411367/0/css-grid-mockup-small.jpg/b8a351b0-9046-46ff-b6c0-e1ede7d9a1b8?t=1502753240587" />
+    </a>
+</p>
+<p>
+    Medium Displays:<br>
+    <a href="/documents/411367/0/css-grid-mockup-medium.jpg/d849c52a-ab66-4829-862e-47b71b722238?t=1502753247265">
+        <img alt="Mockup for Medium Display" style="width:100%;max-width: 600px;" src="/documents/411367/0/css-grid-mockup-medium.jpg/d849c52a-ab66-4829-862e-47b71b722238?t=1502753247265" />
+    </a>
+</p>
+<p>
+    Large Displays:<br>
+    <a href="/documents/411367/0/css-grid-mockup-large.jpg/b37333a5-b207-4e49-81f6-744e35aef320?t=1502753252847">
+        <img alt="Mockup for Large Display" style="width:100%;max-width: 1000px;" src="/documents/411367/0/css-grid-mockup-large.jpg/b37333a5-b207-4e49-81f6-744e35aef320?t=1502753252847" />
+    </a>
+</p>
 
 <p>
     We can start out by identifying the main sections of the UI.
@@ -41,7 +53,11 @@
     small, medium, and large size screens.
 </p>
 
-<img alt="" src="/documents/411367/0/css-grid-elements.jpg/f106b6b6-8270-4f94-98be-e870a8758c4f?t=1502746410246" />
+<p>
+    <a href="/documents/411367/0/css-grid-elements.jpg/f106b6b6-8270-4f94-98be-e870a8758c4f?t=1502746410246">
+        <img alt="" src="/documents/411367/0/css-grid-elements.jpg/f106b6b6-8270-4f94-98be-e870a8758c4f?t=1502746410246" />
+    </a>
+</p>
 
 <p>
     We need to draw a grid that will encapsulate all of the sections of the UI. Below you can see the 
@@ -49,14 +65,18 @@
     name is how we can refer to sections of the grid.  A grid-area can take up multiple cells.
 </p>
 
-<img src="/documents/411367/0/css-grid-grid-areas.png/57ab6f6c-d2b9-43a9-83cc-d4e18c468cf8?t=1502746492328" />
+<p>
+    <a href="/documents/411367/0/css-grid-grid-areas.png/57ab6f6c-d2b9-43a9-83cc-d4e18c468cf8?t=1502746492328">
+        <img src="/documents/411367/0/css-grid-grid-areas.png/57ab6f6c-d2b9-43a9-83cc-d4e18c468cf8?t=1502746492328" />
+    </a>
+</p>
 
 <p>
     Look at the medium display example.  Notice how there are two cells that are labeled "header".
     This is because our header grid-area takes up both of those cells.  The grid-area defines and names a portion of
-    the grid.  By having this, we can simply use CSS tell the <pre><header></pre> element to be placed in the "header" grid-area.
-    We could even tell the <pre><header></pre> element to be positioned in the "footer" grid-area and you would see your
-    <pre><header></pre> element at the bottom!  This is handy because it means we can change the ordering and position and size of our html 
+    the grid.  By having this, we can simply use CSS tell the &lt;header&gt; element to be placed in the "header" grid-area.
+    We could even tell the &lt;header&gt;element to be positioned in the "footer" grid-area and you would see your
+    &lt;header>&gt;element at the bottom!  This is handy because it means we can change the ordering and position and size of our html 
     elements with just a single css rule!
 </p>
 <p>
@@ -65,7 +85,11 @@
     the CSS.
 </p>
 
-<img src="/documents/411367/0/css-grid-css-comparison.jpg/517fcb15-81e7-4116-acdd-cc1a72e036ec?t=1502746498802" />
+<p>
+    <a href="/documents/411367/0/css-grid-css-comparison.jpg/517fcb15-81e7-4116-acdd-cc1a72e036ec?t=1502746498802">
+        <img src="/documents/411367/0/css-grid-css-comparison.jpg/517fcb15-81e7-4116-acdd-cc1a72e036ec?t=1502746498802" />
+    </a>
+</p>
 
 <p>
    A common use case is to move, scale, or reposition elements on different screen sizes.  We can use media queries
@@ -100,3 +124,7 @@
     <li>Column width is specified using the grid-template-rows CSS rule</li>
 </ul>
 <script src="https://gist.github.com/drewharvey/22a34f7eb4d89d9c9d19321d58833e0a.js?file=set-row-column-sizes.css"></script>
+
+<p>
+    Visit <a href="https://github.com/drewharvey/css-grid-example">this github repo</a> for the full source code to this mail application UI.
+</p>
